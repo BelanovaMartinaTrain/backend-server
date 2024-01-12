@@ -10,11 +10,23 @@
   "author": "Martina Belanova",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.21",
+    "axios": "^1.6.5",
+    "dotenv": "^16.3.1",
     "env": "^0.0.2",
-    "express": "^4.18.2"
+    "envalid": "^8.0.0",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0",
+    "mongoose": "^8.0.3",
+    "redis": "^4.6.12"
   },
   "devDependencies": {
+    "@types/redis": "^4.0.11",
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
     "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }
 }
