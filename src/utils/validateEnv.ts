@@ -1,5 +1,6 @@
-import { cleanEnv, port } from "envalid";
+import { cleanEnv, port, str } from "envalid";
 
 export default cleanEnv(process.env, {
-  PORT: port(),
+    PORT: port(),
+    REDIS_PASSWORD: str(),
 });
