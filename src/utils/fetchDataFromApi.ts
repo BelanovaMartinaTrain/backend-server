@@ -1,11 +1,5 @@
-import axios, { AxiosResponse } from "axios";
+//import axios, { AxiosResponse } from "axios";
 import { redisClient } from "../server";
-
-const sample_data = {
-    name: "Martina",
-    lastName: "Belanova",
-    keys: ["key1", "key2", "key3"],
-};
 
 const fetchDataFromApi = async (apiUrl: string, apiKey: string, cacheKey: string, cacheTTL: number = 3600): Promise<{} | null> => {
     //
