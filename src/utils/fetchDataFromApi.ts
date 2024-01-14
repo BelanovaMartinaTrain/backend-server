@@ -1,32 +1,35 @@
-//import axios, { AxiosResponse } from "axios";
 import { redisClient } from "../server";
-import apiDataInterface from "../interfaces/apiDataInterface";
+import apiDataType from "../interfaces/apiDataType";
 
-//apiUrl: string, apiKey: string, cacheDataKey: string, cacheTTL: number = 3600
-
-const fetchDataFromApi = async (params: apiDataInterface): Promise<{} | null> => {
-    const { apiUrl, apiKey, apiRedisKey, cacheDataKey, cacheTTL } = params;
+const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
+    const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL } = params;
     const currentTimestamp = Math.floor(Date.now() / 1000);
-    const lastRequestTimestamp = Number(await redisClient.get(`${cacheDataKey}`)) || 0;
+    const lastRequestTimestamp = Number(await redisClient.get(`${timestampRedisKey}`)) || 0;
 
     if (lastRequestTimestamp === 0) {
-        await redisClient.sendCommand(["SET", `${cacheDataKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
-
         console.log("setting...");
 
-        const response = await fetch(apiUrl);
-        const rawData = await response.json();
+        try {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
 
-        const reply = await redisClient.json.set(apiRedisKey, "$", rawData);
-        console.log(reply);
+            const replyRedisTimestamp = await redisClient.sendCommand(["SET", `${timestampRedisKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
+            console.log(replyRedisTimestamp);
 
-        return rawData;
+            const replyRedisData = await redisClient.json.set(apiRedisKey, "$", data);
+            console.log(replyRedisData);
+
+            return data;
+        } catch {
+            const data = (await redisClient.json.get(apiRedisKey)) || "Error";
+
+            return data;
+        }
     } else {
-        const rawData = (await redisClient.json.get(apiRedisKey)) || "";
-
+        const data = (await redisClient.json.get(apiRedisKey)) || "Error";
         console.log("in else");
 
-        return rawData;
+        return data;
     }
 };
 

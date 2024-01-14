@@ -1,9 +1,9 @@
-type apiDataInterface = {
+type apiDataType = {
     apiUrl: string;
     apiKey: string;
     apiRedisKey: string;
-    cacheDataKey: string;
+    timestampRedisKey: string;
     cacheTTL?: number;
 };
 
-export default apiDataInterface;
+export default apiDataType;
