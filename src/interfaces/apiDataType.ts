@@ -3,7 +3,8 @@ type apiDataType = {
     apiKey: string;
     apiRedisKey: string;
     timestampRedisKey: string;
-    cacheTTL?: number;
+    cacheTTL: number;
+    source: string;
 };
 
 export default apiDataType;

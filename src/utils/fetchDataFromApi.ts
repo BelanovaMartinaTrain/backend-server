@@ -1,3 +1,4 @@
+import env from "../utils/validateEnv";
 import { redisClient } from "../server";
 import apiDataType from "../interfaces/apiDataType";
 
@@ -17,18 +18,24 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
             if (!!apiKey) {
                 const response = await fetch(apiUrl, {
                     headers: {
+                        "User-agent": env.USER_AGENT,
                         Authorization: apiKey,
                     },
                 });
                 data = await response.json();
                 console.log("key");
             } else {
-                const response = await fetch(apiUrl);
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        "User-agent": env.USER_AGENT,
+                    },
+                });
                 data = await response.json();
                 console.log("no key");
             }
 
             // if fetch was succesfull set current timestamp to redis with ttl
+            // TODO edge case when API sends back JSON with error
             const replySetRedisTimestamp = await redisClient.sendCommand(["SET", `${timestampRedisKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
             console.log(replySetRedisTimestamp);
 

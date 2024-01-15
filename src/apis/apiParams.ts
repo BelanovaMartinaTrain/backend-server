@@ -2,19 +2,21 @@ import env from "../utils/validateEnv";
 import apiDataType from "../interfaces/apiDataType";
 
 export const apiPlanetaryKIndex: apiDataType = {
-    apiUrl: "https://services.swpc.noaa.gov/json/planetary_k_index_1m.json",
+    apiUrl: env.NOAA_API_URL_K_INDEX,
     apiKey: "",
     apiRedisKey: "planetary_k_index_data",
     timestampRedisKey: "planetary_k_index_ttl",
     cacheTTL: 60,
+    source: "NOAA",
 };
 
-export const apiStormglassWeather = (lat: string, lon: string, params: string) => {
+export const apiYRMETWeather = (lat: string, lon: string) => {
     return {
-        apiUrl: `https://api.stormglass.io/v2/weather/point?lat=${lat}&lng=${lon}&params=${params}`,
-        apiKey: env.STORMGLASS_API_KEY,
-        apiRedisKey: "stormglass_weather_data",
-        timestampRedisKey: "stormglass_weather_ttl",
-        cacheTTL: 10000,
+        apiUrl: env.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
+        apiKey: "",
+        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        cacheTTL: 1800,
+        source: "MET Norway",
     };
 };
