@@ -1,13 +1,15 @@
 import env from "../utils/validateEnv";
 import apiDataType from "../interfaces/apiDataType";
 
-export const apiPlanetaryKIndex: apiDataType = {
-    apiUrl: env.NOAA_API_URL_K_INDEX,
-    apiKey: "",
-    apiRedisKey: "planetary_k_index_data",
-    timestampRedisKey: "planetary_k_index_ttl",
-    cacheTTL: 60,
-    source: "NOAA",
+export const apiPlanetaryKIndex = () => {
+    return {
+        apiUrl: env.NOAA_API_URL_K_INDEX,
+        apiKey: "",
+        apiRedisKey: "planetary_k_index_data",
+        timestampRedisKey: "planetary_k_index_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
 };
 
 export const apiYRMETWeather = (lat: string, lon: string) => {

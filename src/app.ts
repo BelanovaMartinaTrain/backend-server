@@ -11,7 +11,8 @@ app.use(express.json());
 app.use(express.static("public"));
 
 app.get("/api/planetary-k-index", async (req, res) => {
-    const data = await fetchDataFromApi(apiPlanetaryKIndex);
+    const apiData = apiPlanetaryKIndex(); // TODO data from body
+    const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
 
