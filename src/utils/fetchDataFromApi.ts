@@ -4,33 +4,45 @@ import apiDataType from "../interfaces/apiDataType";
 const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
     const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL } = params;
     const currentTimestamp = Math.floor(Date.now() / 1000);
+    // when there is no timestamp in redis it's set to 0
     const lastRequestTimestamp = Number(await redisClient.get(`${timestampRedisKey}`)) || 0;
+    let data;
 
-    if (lastRequestTimestamp === 0) {
-        console.log("setting...");
+    // if there is no timestamp (data were not fetched yet or ttl expired), fetch the data
+    if (!lastRequestTimestamp) {
+        console.log("fetching, setting timestamp and data to redis...");
 
         try {
-            const response = await fetch(apiUrl);
-            const data = await response.json();
+            //if there is apiKey value fetch with api key
+            if (!!apiKey) {
+                const response = await fetch(apiUrl);
+                data = await response.json();
+                console.log("key");
+            } else {
+                const response = await fetch(apiUrl);
+                data = await response.json();
+                console.log("no key");
+            }
 
-            const replyRedisTimestamp = await redisClient.sendCommand(["SET", `${timestampRedisKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
-            console.log(replyRedisTimestamp);
+            // if fetch was succesfull set current timestamp to redis with ttl
+            const replySetRedisTimestamp = await redisClient.sendCommand(["SET", `${timestampRedisKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
+            console.log(replySetRedisTimestamp);
 
-            const replyRedisData = await redisClient.json.set(apiRedisKey, "$", data);
-            console.log(replyRedisData);
+            // if fetch was succesfull set fetched data to redis
+            const replySetRedisData = await redisClient.json.set(apiRedisKey, "$", data);
+            console.log(replySetRedisData);
 
-            return data;
+            //if there is error fetching, try reading older data from redis, or set data to "Error" for future error handling
         } catch {
-            const data = (await redisClient.json.get(apiRedisKey)) || "Error";
-
-            return data;
+            data = (await redisClient.json.get(apiRedisKey)) || "Error";
         }
+        // else there is timestamp read data from redis
     } else {
-        const data = (await redisClient.json.get(apiRedisKey)) || "Error";
-        console.log("in else");
-
-        return data;
+        data = (await redisClient.json.get(apiRedisKey)) || "Error";
+        console.log("readin from redis...");
     }
+    // data return in each case
+    return data;
 };
 
 export default fetchDataFromApi;
