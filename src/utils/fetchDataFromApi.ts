@@ -15,7 +15,11 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
         try {
             //if there is apiKey value fetch with api key
             if (!!apiKey) {
-                const response = await fetch(apiUrl);
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        Authorization: apiKey,
+                    },
+                });
                 data = await response.json();
                 console.log("key");
             } else {
@@ -39,7 +43,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
         // else there is timestamp read data from redis
     } else {
         data = (await redisClient.json.get(apiRedisKey)) || "Error";
-        console.log("readin from redis...");
+        console.log("reading from redis...");
     }
     // data return in each case
     return data;
