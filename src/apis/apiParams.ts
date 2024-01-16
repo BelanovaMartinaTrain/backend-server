@@ -1,7 +1,7 @@
 import env from "../utils/validateEnv";
 import apiDataType from "../interfaces/apiDataType";
 
-export const apiPlanetaryKIndex = () => {
+export const apiPlanetaryKIndex = (): apiDataType => {
     return {
         apiUrl: env.NOAA_API_URL_K_INDEX,
         apiKey: "",
@@ -12,7 +12,18 @@ export const apiPlanetaryKIndex = () => {
     };
 };
 
-export const apiYRMETWeather = (lat: string, lon: string) => {
+export const apiSpaceWeather = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_API_URL_SPACE_WEATHER,
+        apiKey: "",
+        apiRedisKey: "sunstorm_events_data",
+        timestampRedisKey: "sunstorm_events_ttl",
+        cacheTTL: 3600,
+        source: "NOAA",
+    };
+};
+
+export const apiYRMETWeather = (lat: string, lon: string): apiDataType => {
     return {
         apiUrl: env.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",

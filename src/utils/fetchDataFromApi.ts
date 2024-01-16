@@ -13,6 +13,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
     if (!lastRequestTimestamp) {
         console.log("fetching, setting timestamp and data to redis...");
 
+        // TODO check API response
         try {
             //if there is apiKey value fetch with api key
             if (!!apiKey) {

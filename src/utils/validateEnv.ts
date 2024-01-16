@@ -1,10 +1,11 @@
-import { cleanEnv, port, str } from "envalid";
+import { cleanEnv, port, str, url } from "envalid";
 
 export default cleanEnv(process.env, {
     PORT: port(),
     REDIS_PASSWORD: str(),
     STORMGLASS_API_KEY: str(),
     USER_AGENT: str(),
-    NOAA_API_URL_K_INDEX: str(),
-    YR_API_URL: str(),
+    NOAA_API_URL_K_INDEX: url(),
+    NOAA_API_URL_SPACE_WEATHER: url(),
+    YR_API_URL: url(),
 });
