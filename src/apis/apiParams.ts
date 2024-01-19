@@ -23,6 +23,39 @@ export const apiSpaceWeather = (): apiDataType => {
     };
 };
 
+export const apiSolarWind = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_SOLAR_WIND_URL,
+        apiKey: "",
+        apiRedisKey: "solar_wind_data",
+        timestampRedisKey: "solar_wind_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+
+export const apiMagneticField = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_MAGNETIC_FIELD,
+        apiKey: "",
+        apiRedisKey: "magnetic_field_data",
+        timestampRedisKey: "magnetic_field_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+
+export const apiFlux = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_FLUX,
+        apiKey: "",
+        apiRedisKey: "flux_data",
+        timestampRedisKey: "flux_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+
 export const apiYRMETWeather = (lat: string, lon: string): apiDataType => {
     return {
         apiUrl: env.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values

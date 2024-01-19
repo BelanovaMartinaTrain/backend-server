@@ -8,4 +8,7 @@ export default cleanEnv(process.env, {
     NOAA_API_URL_K_INDEX: url(),
     NOAA_API_URL_SPACE_WEATHER: url(),
     YR_API_URL: url(),
+    NOAA_SOLAR_WIND_URL: url(),
+    NOAA_MAGNETIC_FIELD: url(),
+    NOAA_FLUX: url(),
 });
