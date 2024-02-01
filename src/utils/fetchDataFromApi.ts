@@ -13,7 +13,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
     if (!lastRequestTimestamp) {
         console.log("fetching, setting timestamp and data to redis...");
 
-        // TODO check API response
+        // TODO check API response or AJAX
         try {
             //if there is apiKey value fetch with api key
             if (!!apiKey) {
@@ -35,6 +35,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
                 console.log("no key");
             }
 
+            // TODO check redis response setting data, when not OK throw error
             // if fetch was succesfull set current timestamp to redis with ttl
             // TODO edge case when API sends back JSON with error
             const replySetRedisTimestamp = await redisClient.sendCommand(["SET", `${timestampRedisKey}`, `${currentTimestamp}`, "EX", `${cacheTTL}`]);
@@ -53,6 +54,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
         data = (await redisClient.json.get(apiRedisKey)) || "Error";
         console.log("reading from redis...");
     }
+    // TODO error handling
     // data return in each case
     return data;
 };
