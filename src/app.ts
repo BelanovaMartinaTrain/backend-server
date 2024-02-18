@@ -3,7 +3,7 @@ import express from "express";
 //import env from "dotenv";
 //import path from "path";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
-import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux } from "./apis/apiParams";
+import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h } from "./apis/apiParams";
 
 const app = express();
 
@@ -43,6 +43,12 @@ app.get("/api/flux", async (req, res) => {
 
 app.get("/api/yr-met-weather", async (req, res) => {
     const apiData = apiYRMETWeather("48", "17"); // TODO data from body
+    const data = await fetchDataFromApi(apiData);
+    res.json(data);
+});
+
+app.get("/api/planetary-k-3h", async (req, res) => {
+    const apiData = apiPlanetaryK3h();
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });

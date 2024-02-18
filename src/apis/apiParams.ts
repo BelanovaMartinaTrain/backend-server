@@ -66,3 +66,14 @@ export const apiYRMETWeather = (lat: string, lon: string): apiDataType => {
         source: "MET Norway",
     };
 };
+
+export const apiPlanetaryK3h = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_K_3HR,
+        apiKey: "",
+        apiRedisKey: "planetary_k_3h_data",
+        timestampRedisKey: "planetary_k_3h_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};

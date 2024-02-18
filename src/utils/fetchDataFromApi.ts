@@ -45,7 +45,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
             const replySetRedisData = await redisClient.json.set(apiRedisKey, "$", data);
             console.log(replySetRedisData);
 
-            //if there is error fetching, try reading older data from redis, or set data to "Error" for future error handling
+            // if there is error fetching, try reading older data from redis, or set data to "Error" for future error handling
         } catch {
             data = (await redisClient.json.get(apiRedisKey)) || "Error";
         }

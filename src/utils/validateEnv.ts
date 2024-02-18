@@ -11,4 +11,5 @@ export default cleanEnv(process.env, {
     NOAA_SOLAR_WIND_URL: url(),
     NOAA_MAGNETIC_FIELD: url(),
     NOAA_FLUX: url(),
+    NOAA_K_3HR: url(),
 });
