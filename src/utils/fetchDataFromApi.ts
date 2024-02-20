@@ -2,16 +2,17 @@ import env from "../utils/validateEnv";
 import { redisClient } from "../server";
 import apiDataType from "../interfaces/apiDataType";
 
-const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
+const fetchDataFromApi = async (params: apiDataType) => {
     const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL } = params;
     const currentTimestamp = Math.floor(Date.now() / 1000);
     // when there is no timestamp in redis it's set to 0
+
     const lastRequestTimestamp = Number(await redisClient.get(`${timestampRedisKey}`)) || 0;
     let data;
 
     // if there is no timestamp (data were not fetched yet or ttl expired), fetch the data
     if (!lastRequestTimestamp) {
-        console.log("fetching, setting timestamp and data to redis...");
+        console.log("fetching, setting timestamp and data to redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
 
         // TODO check API response or AJAX
         try {
@@ -52,7 +53,7 @@ const fetchDataFromApi = async (params: apiDataType): Promise<{} | null> => {
         // else there is timestamp read data from redis
     } else {
         data = (await redisClient.json.get(apiRedisKey)) || "Error";
-        console.log("reading from redis...");
+        console.log("reading from redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
     }
     // TODO error handling
     // data return in each case

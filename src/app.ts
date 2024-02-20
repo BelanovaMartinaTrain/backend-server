@@ -3,9 +3,13 @@ import express from "express";
 //import env from "dotenv";
 //import path from "path";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
+import fetchAndModify from "./utils/modifyData";
 import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h } from "./apis/apiParams";
+import cors from "cors";
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 app.use(express.static("public"));
@@ -15,7 +19,13 @@ app.get("/api/planetary-k-index", async (req, res) => {
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
-
+//TEST
+app.get("/api/planetary-k-index-mod", async (req, res) => {
+    const apiData = apiPlanetaryKIndex();
+    const data = await fetchAndModify(apiData);
+    res.json(data);
+});
+//END TEST
 app.get("/api/sunstorm-events", async (req, res) => {
     const apiData = apiSpaceWeather();
     const data = await fetchDataFromApi(apiData);
