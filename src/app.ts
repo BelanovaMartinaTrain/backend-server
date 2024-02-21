@@ -55,8 +55,10 @@ app.get("/api/flux", async (req, res) => {
     res.json(data);
 });
 
-app.get("/api/yr-met-weather", async (req, res) => {
-    const apiData = apiYRMETWeather("48", "17"); // TODO data from body
+app.get("/api/yr-met-weather/:lat/:lon", async (req, res) => {
+    const { lat, lon } = req.params;
+    console.log(lat, lon);
+    const apiData = apiYRMETWeather(lat, lon);
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
