@@ -22,7 +22,7 @@ COPY ./dist ./dist
 # Leverage a bind mounts to package.json and package-lock.json to avoid having to copy them into
 # into this layer.
 COPY package*.json ./
-COPY .env ./
+
 RUN npm install
 
 # Run the application as a non-root user.
