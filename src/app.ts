@@ -9,11 +9,11 @@ import cors from "cors";
 
 const app = express();
 
-app.use(
-    cors({
-        origin: "https://aurora-forecast-frontend.vercel.app/",
-    })
-);
+// app.use(
+//     cors({
+//         origin: "https://aurora-forecast-frontend.vercel.app/",
+//     })
+// );
 
 app.use(express.json());
 app.use(express.static("public"));
