@@ -32,7 +32,7 @@ USER node
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 5176
+EXPOSE 8080
 
 # Run the application.
 CMD node dist/server.js
