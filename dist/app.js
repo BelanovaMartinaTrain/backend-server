@@ -22,6 +22,11 @@ const apiParams_1 = require("./apis/apiParams");
 const cors_1 = __importDefault(require("cors"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
+// app.use(
+//     cors({
+//         origin: "https://aurora-forecast-frontend.vercel.app/",
+//     })
+// );
 app.use(express_1.default.json());
 app.use(express_1.default.static("public"));
 app.get("/api/planetary-k-index", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -57,8 +62,10 @@ app.get("/api/flux", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-app.get("/api/yr-met-weather", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const apiData = (0, apiParams_1.apiYRMETWeather)("48", "17"); // TODO data from body
+app.get("/api/yr-met-weather/:lat/:lon", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { lat, lon } = req.params;
+    console.log(lat, lon);
+    const apiData = (0, apiParams_1.apiYRMETWeather)(lat, lon);
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
