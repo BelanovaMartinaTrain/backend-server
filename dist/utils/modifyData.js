@@ -19,4 +19,10 @@ const fetchAndModifyKIndex = (params) => __awaiter(void 0, void 0, void 0, funct
     console.log(modifiedData);
     return modifiedData;
 });
+// const fetchAndModifyKIndex = async (params: apiDataType): Promise<unknown | null> => {
+//     const data = await fetchDataFromApi(params);
+//     const modifiedData = data[data.length - 1].kp_index;
+//     console.log(modifiedData);
+//     return modifiedData;
+// };
 exports.default = fetchAndModifyKIndex;

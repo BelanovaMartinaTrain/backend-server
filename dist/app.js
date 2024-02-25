@@ -47,6 +47,16 @@ app.get("/api/sunstorm-events", (req, res) => __awaiter(void 0, void 0, void 0, 
     res.json(data);
 }));
 // TODO combine wind, field, flux and latest pic to one and send back as object
+app.get("/api/solar-wind-density-5min", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const apiData = (0, apiParams_1.apiSolarWindDensity5Min)();
+    const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    res.json(data);
+}));
+app.get("/api/solar-wind-density-3day", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const apiData = (0, apiParams_1.apiSolarWindDensity3Day)();
+    const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    res.json(data);
+}));
 app.get("/api/solar-wind", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiSolarWind)();
     const data = yield (0, fetchDataFromApi_1.default)(apiData);

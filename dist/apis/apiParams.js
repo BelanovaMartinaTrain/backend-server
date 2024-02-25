@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.apiPlanetaryK3h = exports.apiYRMETWeather = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
+exports.apiPlanetaryK3h = exports.apiYRMETWeather = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
 const apiPlanetaryKIndex = () => {
     return {
@@ -38,6 +38,28 @@ const apiSolarWind = () => {
     };
 };
 exports.apiSolarWind = apiSolarWind;
+const apiSolarWindDensity5Min = () => {
+    return {
+        apiUrl: validateEnv_1.default.NOAA_SOLAR_WIND_DENSITY_5MIN,
+        apiKey: "",
+        apiRedisKey: "solar_wind_5min_data",
+        timestampRedisKey: "solar_wind_5min_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+exports.apiSolarWindDensity5Min = apiSolarWindDensity5Min;
+const apiSolarWindDensity3Day = () => {
+    return {
+        apiUrl: validateEnv_1.default.NOAA_SOLAR_WIND_DENSITY_3DAY,
+        apiKey: "",
+        apiRedisKey: "solar_wind_3day_data",
+        timestampRedisKey: "solar_wind_3day_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+exports.apiSolarWindDensity3Day = apiSolarWindDensity3Day;
 const apiMagneticField = () => {
     return {
         apiUrl: validateEnv_1.default.NOAA_MAGNETIC_FIELD,
