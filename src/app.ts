@@ -3,8 +3,8 @@ import express from "express";
 //import env from "dotenv";
 //import path from "path";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
-import fetchAndModify from "./utils/modifyData";
-import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h } from "./apis/apiParams";
+import fetchAndModifyKIndex from "./utils/modifyData";
+import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day } from "./apis/apiParams";
 import cors from "cors";
 
 const app = express();
@@ -28,7 +28,7 @@ app.get("/api/planetary-k-index", async (req, res) => {
 //TEST
 app.get("/api/planetary-k-index-mod", async (req, res) => {
     const apiData = apiPlanetaryKIndex();
-    const data = await fetchAndModify(apiData);
+    const data = await fetchAndModifyKIndex(apiData);
     res.json(data);
 });
 //END TEST
@@ -39,6 +39,18 @@ app.get("/api/sunstorm-events", async (req, res) => {
 });
 
 // TODO combine wind, field, flux and latest pic to one and send back as object
+app.get("/api/solar-wind-density-5min", async (req, res) => {
+    const apiData = apiSolarWindDensity5Min();
+    const data = await fetchDataFromApi(apiData);
+    res.json(data);
+});
+
+app.get("/api/solar-wind-density-3day", async (req, res) => {
+    const apiData = apiSolarWindDensity3Day();
+    const data = await fetchDataFromApi(apiData);
+    res.json(data);
+});
+
 app.get("/api/solar-wind", async (req, res) => {
     const apiData = apiSolarWind();
     const data = await fetchDataFromApi(apiData);

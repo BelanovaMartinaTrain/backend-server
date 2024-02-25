@@ -13,10 +13,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const fetchDataFromApi_1 = __importDefault(require("./fetchDataFromApi"));
-const fetchAndModify = (params) => __awaiter(void 0, void 0, void 0, function* () {
+const fetchAndModifyKIndex = (params) => __awaiter(void 0, void 0, void 0, function* () {
     const data = yield (0, fetchDataFromApi_1.default)(params);
     const modifiedData = data[data.length - 1].kp_index;
     console.log(modifiedData);
     return modifiedData;
 });
-exports.default = fetchAndModify;
+exports.default = fetchAndModifyKIndex;

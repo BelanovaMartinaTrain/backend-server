@@ -34,6 +34,28 @@ export const apiSolarWind = (): apiDataType => {
     };
 };
 
+export const apiSolarWindDensity5Min = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_SOLAR_WIND_DENSITY_5MIN,
+        apiKey: "",
+        apiRedisKey: "solar_wind_5min_data",
+        timestampRedisKey: "solar_wind_5min_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+
+export const apiSolarWindDensity3Day = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_SOLAR_WIND_DENSITY_3DAY,
+        apiKey: "",
+        apiRedisKey: "solar_wind_3day_data",
+        timestampRedisKey: "solar_wind_3day_ttl",
+        cacheTTL: 60,
+        source: "NOAA",
+    };
+};
+
 export const apiMagneticField = (): apiDataType => {
     return {
         apiUrl: env.NOAA_MAGNETIC_FIELD,
