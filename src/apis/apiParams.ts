@@ -99,3 +99,14 @@ export const apiPlanetaryK3h = (): apiDataType => {
         source: "NOAA",
     };
 };
+
+export const api27Day = (): apiDataType => {
+    return {
+        apiUrl: env.NOAA_27_DAYS,
+        apiKey: "",
+        apiRedisKey: "27_day_data",
+        timestampRedisKey: "27_day_ttl",
+        cacheTTL: 43200,
+        source: "NOAA",
+    };
+};

@@ -84,4 +84,9 @@ app.get("/api/planetary-k-3h", (req, res) => __awaiter(void 0, void 0, void 0, f
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
+app.get("/api/27-days-forecast", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const apiData = (0, apiParams_1.api27Day)();
+    const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    res.json(data);
+}));
 exports.default = app;

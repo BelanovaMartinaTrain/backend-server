@@ -4,7 +4,7 @@ import express from "express";
 //import path from "path";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
 import fetchAndModifyKIndex from "./utils/modifyData";
-import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day } from "./apis/apiParams";
+import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
 import cors from "cors";
 
 const app = express();
@@ -79,6 +79,12 @@ app.get("/api/yr-met-weather/:lat/:lon", async (req, res) => {
 
 app.get("/api/planetary-k-3h", async (req, res) => {
     const apiData = apiPlanetaryK3h();
+    const data = await fetchDataFromApi(apiData);
+    res.json(data);
+});
+
+app.get("/api/27-days-forecast", async (req, res) => {
+    const apiData = api27Day();
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });

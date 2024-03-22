@@ -15,4 +15,5 @@ exports.default = (0, envalid_1.cleanEnv)(process.env, {
     NOAA_K_3HR: (0, envalid_1.url)(),
     NOAA_SOLAR_WIND_DENSITY_5MIN: (0, envalid_1.url)(),
     NOAA_SOLAR_WIND_DENSITY_3DAY: (0, envalid_1.url)(),
+    NOAA_27_DAYS: (0, envalid_1.url)(),
 });

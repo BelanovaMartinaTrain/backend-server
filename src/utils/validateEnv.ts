@@ -14,4 +14,5 @@ export default cleanEnv(process.env, {
     NOAA_K_3HR: url(),
     NOAA_SOLAR_WIND_DENSITY_5MIN: url(),
     NOAA_SOLAR_WIND_DENSITY_3DAY: url(),
+    NOAA_27_DAYS: url(),
 });

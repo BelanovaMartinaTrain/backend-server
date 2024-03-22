@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.apiPlanetaryK3h = exports.apiYRMETWeather = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
+exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeather = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
 const apiPlanetaryKIndex = () => {
     return {
@@ -104,3 +104,14 @@ const apiPlanetaryK3h = () => {
     };
 };
 exports.apiPlanetaryK3h = apiPlanetaryK3h;
+const api27Day = () => {
+    return {
+        apiUrl: validateEnv_1.default.NOAA_27_DAYS,
+        apiKey: "",
+        apiRedisKey: "27_day_data",
+        timestampRedisKey: "27_day_ttl",
+        cacheTTL: 43200,
+        source: "NOAA",
+    };
+};
+exports.api27Day = api27Day;
