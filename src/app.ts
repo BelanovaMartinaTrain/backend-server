@@ -6,6 +6,7 @@ import fetchDataFromApi from "./utils/fetchDataFromApi";
 import fetchAndModifyKIndex from "./utils/modifyData";
 import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
 import cors from "cors";
+import fetch27DayForecastAndModify from "./utils/27DaysModify";
 
 const app = express();
 
@@ -85,7 +86,7 @@ app.get("/api/planetary-k-3h", async (req, res) => {
 
 app.get("/api/27-days-forecast", async (req, res) => {
     const apiData = api27Day();
-    const data = await fetchDataFromApi(apiData);
+    const data = await fetch27DayForecastAndModify(apiData);
     res.json(data);
 });
 

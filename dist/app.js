@@ -20,6 +20,7 @@ const fetchDataFromApi_1 = __importDefault(require("./utils/fetchDataFromApi"));
 const modifyData_1 = __importDefault(require("./utils/modifyData"));
 const apiParams_1 = require("./apis/apiParams");
 const cors_1 = __importDefault(require("cors"));
+const _27DaysModify_1 = __importDefault(require("./utils/27DaysModify"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // app.use(
@@ -86,7 +87,7 @@ app.get("/api/planetary-k-3h", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 app.get("/api/27-days-forecast", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.api27Day)();
-    const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    const data = yield (0, _27DaysModify_1.default)(apiData);
     res.json(data);
 }));
 exports.default = app;
