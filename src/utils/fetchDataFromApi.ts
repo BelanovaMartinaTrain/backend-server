@@ -1,20 +1,20 @@
 import env from "../utils/validateEnv";
 import { redisClient } from "../server";
 import apiDataType from "../interfaces/apiDataType";
+import defaultDataModifier from "./defaultDataModifier";
+import formatTimestamp24hFormat from "./formatTimestamp24hFormat";
 
 const fetchDataFromApi = async (params: apiDataType) => {
-    const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL } = params;
+    const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL, dataModifier = defaultDataModifier } = params;
     const currentTimestamp = Math.floor(Date.now() / 1000);
-    // when there is no timestamp in redis it's set to 0
-
     const lastRequestTimestamp = Number(await redisClient.get(`${timestampRedisKey}`)) || 0;
     let data;
 
-    // if there is no timestamp (data were not fetched yet or ttl expired), fetch the data
+    // if there is no lastRequestTimestamp (data were not fetched yet or ttl expired), fetch the data
     if (!lastRequestTimestamp) {
-        console.log("fetching, setting timestamp and data to redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
+        console.log("fetching, setting timestamp and data to redis...", formatTimestamp24hFormat(new Date()));
 
-        // TODO check API response or AJAX
+        // TODO check API response or AXIOM
         try {
             //if there is apiKey value fetch with api key
             if (!!apiKey) {
@@ -24,7 +24,7 @@ const fetchDataFromApi = async (params: apiDataType) => {
                         Authorization: apiKey,
                     },
                 });
-                data = await response.json();
+                data = await dataModifier(response);
                 console.log("key");
             } else {
                 const response = await fetch(apiUrl, {
@@ -32,7 +32,7 @@ const fetchDataFromApi = async (params: apiDataType) => {
                         "User-agent": env.USER_AGENT,
                     },
                 });
-                data = await response.json();
+                data = await dataModifier(response);
                 console.log("no key");
             }
 
@@ -53,7 +53,7 @@ const fetchDataFromApi = async (params: apiDataType) => {
         // else there is timestamp read data from redis
     } else {
         data = (await redisClient.json.get(apiRedisKey)) || "Error";
-        console.log("reading from redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
+        console.log("reading from redis...", formatTimestamp24hFormat(new Date()));
     }
     // TODO error handling
     // data return in each case

@@ -14,13 +14,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
-//import env from "dotenv";
-//import path from "path";
 const fetchDataFromApi_1 = __importDefault(require("./utils/fetchDataFromApi"));
-const modifyData_1 = __importDefault(require("./utils/modifyData"));
+const modifyKIndex_1 = __importDefault(require("./utils/modifyKIndex"));
 const apiParams_1 = require("./apis/apiParams");
 const cors_1 = __importDefault(require("cors"));
-const _27DaysModify_1 = __importDefault(require("./utils/27DaysModify"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // app.use(
@@ -35,13 +32,11 @@ app.get("/api/planetary-k-index", (req, res) => __awaiter(void 0, void 0, void 0
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-//TEST
 app.get("/api/planetary-k-index-mod", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiPlanetaryKIndex)();
-    const data = yield (0, modifyData_1.default)(apiData);
+    const data = yield (0, modifyKIndex_1.default)(apiData);
     res.json(data);
 }));
-//END TEST
 app.get("/api/sunstorm-events", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiSpaceWeather)();
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
@@ -73,10 +68,17 @@ app.get("/api/flux", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-app.get("/api/yr-met-weather/:lat/:lon", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { lat, lon } = req.params;
-    console.log(lat, lon);
-    const apiData = (0, apiParams_1.apiYRMETWeather)(lat, lon);
+app.get("/api/yr-met-weather-10day/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const lat = String(req.query.lat);
+    const lon = String(req.query.lon);
+    const apiData = (0, apiParams_1.apiYRMETWeather10Day)(lat, lon);
+    const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    res.json(data);
+}));
+app.get("/api/yr-met-weather-complete/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const lat = String(req.query.lat);
+    const lon = String(req.query.lon);
+    const apiData = (0, apiParams_1.apiYRMETWeatherComplete)(lat, lon);
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
@@ -87,7 +89,7 @@ app.get("/api/planetary-k-3h", (req, res) => __awaiter(void 0, void 0, void 0, f
 }));
 app.get("/api/27-days-forecast", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.api27Day)();
-    const data = yield (0, _27DaysModify_1.default)(apiData);
+    const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
 exports.default = app;

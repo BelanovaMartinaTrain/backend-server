@@ -14,16 +14,17 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
 const server_1 = require("../server");
+const defaultDataModifier_1 = __importDefault(require("./defaultDataModifier"));
+const formatTimestamp24hFormat_1 = __importDefault(require("./formatTimestamp24hFormat"));
 const fetchDataFromApi = (params) => __awaiter(void 0, void 0, void 0, function* () {
-    const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL } = params;
+    const { apiUrl, apiKey, apiRedisKey, timestampRedisKey, cacheTTL, dataModifier = defaultDataModifier_1.default } = params;
     const currentTimestamp = Math.floor(Date.now() / 1000);
-    // when there is no timestamp in redis it's set to 0
     const lastRequestTimestamp = Number(yield server_1.redisClient.get(`${timestampRedisKey}`)) || 0;
     let data;
-    // if there is no timestamp (data were not fetched yet or ttl expired), fetch the data
+    // if there is no lastRequestTimestamp (data were not fetched yet or ttl expired), fetch the data
     if (!lastRequestTimestamp) {
-        console.log("fetching, setting timestamp and data to redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
-        // TODO check API response or AJAX
+        console.log("fetching, setting timestamp and data to redis...", (0, formatTimestamp24hFormat_1.default)(new Date()));
+        // TODO check API response or AXIOM
         try {
             //if there is apiKey value fetch with api key
             if (!!apiKey) {
@@ -33,7 +34,7 @@ const fetchDataFromApi = (params) => __awaiter(void 0, void 0, void 0, function*
                         Authorization: apiKey,
                     },
                 });
-                data = yield response.json();
+                data = yield dataModifier(response);
                 console.log("key");
             }
             else {
@@ -42,7 +43,7 @@ const fetchDataFromApi = (params) => __awaiter(void 0, void 0, void 0, function*
                         "User-agent": validateEnv_1.default.USER_AGENT,
                     },
                 });
-                data = yield response.json();
+                data = yield dataModifier(response);
                 console.log("no key");
             }
             // TODO check redis response setting data, when not OK throw error
@@ -62,7 +63,7 @@ const fetchDataFromApi = (params) => __awaiter(void 0, void 0, void 0, function*
     }
     else {
         data = (yield server_1.redisClient.json.get(apiRedisKey)) || "Error";
-        console.log("reading from redis...", new Date().toLocaleTimeString([], { hourCycle: "h23", hour: "2-digit", minute: "2-digit" }));
+        console.log("reading from redis...", (0, formatTimestamp24hFormat_1.default)(new Date()));
     }
     // TODO error handling
     // data return in each case

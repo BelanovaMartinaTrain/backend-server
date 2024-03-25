@@ -1,12 +1,9 @@
 import "dotenv/config";
 import express from "express";
-//import env from "dotenv";
-//import path from "path";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
-import fetchAndModifyKIndex from "./utils/modifyData";
-import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
+import fetchAndModifyKIndex from "./utils/modifyKIndex";
+import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather10Day, apiYRMETWeatherComplete, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
 import cors from "cors";
-import fetch27DayForecastAndModify from "./utils/27DaysModify";
 
 const app = express();
 
@@ -26,13 +23,13 @@ app.get("/api/planetary-k-index", async (req, res) => {
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
-//TEST
+
 app.get("/api/planetary-k-index-mod", async (req, res) => {
     const apiData = apiPlanetaryKIndex();
     const data = await fetchAndModifyKIndex(apiData);
     res.json(data);
 });
-//END TEST
+
 app.get("/api/sunstorm-events", async (req, res) => {
     const apiData = apiSpaceWeather();
     const data = await fetchDataFromApi(apiData);
@@ -70,10 +67,18 @@ app.get("/api/flux", async (req, res) => {
     res.json(data);
 });
 
-app.get("/api/yr-met-weather/:lat/:lon", async (req, res) => {
-    const { lat, lon } = req.params;
-    console.log(lat, lon);
-    const apiData = apiYRMETWeather(lat, lon);
+app.get("/api/yr-met-weather-10day/", async (req, res) => {
+    const lat = String(req.query.lat);
+    const lon = String(req.query.lon);
+    const apiData = apiYRMETWeather10Day(lat, lon);
+    const data = await fetchDataFromApi(apiData);
+    res.json(data);
+});
+
+app.get("/api/yr-met-weather-complete/", async (req, res) => {
+    const lat = String(req.query.lat);
+    const lon = String(req.query.lon);
+    const apiData = apiYRMETWeatherComplete(lat, lon);
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
@@ -86,7 +91,7 @@ app.get("/api/planetary-k-3h", async (req, res) => {
 
 app.get("/api/27-days-forecast", async (req, res) => {
     const apiData = api27Day();
-    const data = await fetch27DayForecastAndModify(apiData);
+    const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
 

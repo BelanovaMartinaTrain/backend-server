@@ -3,8 +3,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeather = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
+exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeatherComplete = exports.apiYRMETWeather10Day = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
+const modify27Days_1 = __importDefault(require("../utils/modify27Days"));
+const modifyDensityData_1 = __importDefault(require("../utils/modifyDensityData"));
+const modifyWeatherData_1 = __importDefault(require("../utils/modifyWeatherData"));
 const apiPlanetaryKIndex = () => {
     return {
         apiUrl: validateEnv_1.default.NOAA_API_URL_K_INDEX,
@@ -57,6 +60,7 @@ const apiSolarWindDensity3Day = () => {
         timestampRedisKey: "solar_wind_3day_ttl",
         cacheTTL: 60,
         source: "NOAA",
+        dataModifier: modifyDensityData_1.default,
     };
 };
 exports.apiSolarWindDensity3Day = apiSolarWindDensity3Day;
@@ -82,7 +86,19 @@ const apiFlux = () => {
     };
 };
 exports.apiFlux = apiFlux;
-const apiYRMETWeather = (lat, lon) => {
+const apiYRMETWeather10Day = (lat, lon) => {
+    return {
+        apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
+        apiKey: "",
+        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        cacheTTL: 1800,
+        source: "MET Norway",
+        dataModifier: modifyWeatherData_1.default,
+    };
+};
+exports.apiYRMETWeather10Day = apiYRMETWeather10Day;
+const apiYRMETWeatherComplete = (lat, lon) => {
     return {
         apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",
@@ -92,7 +108,7 @@ const apiYRMETWeather = (lat, lon) => {
         source: "MET Norway",
     };
 };
-exports.apiYRMETWeather = apiYRMETWeather;
+exports.apiYRMETWeatherComplete = apiYRMETWeatherComplete;
 const apiPlanetaryK3h = () => {
     return {
         apiUrl: validateEnv_1.default.NOAA_K_3HR,
@@ -112,6 +128,7 @@ const api27Day = () => {
         timestampRedisKey: "27_day_ttl",
         cacheTTL: 43200,
         source: "NOAA",
+        dataModifier: modify27Days_1.default,
     };
 };
 exports.api27Day = api27Day;

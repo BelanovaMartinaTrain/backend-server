@@ -5,6 +5,7 @@ type apiDataType = {
     timestampRedisKey: string;
     cacheTTL: number;
     source: string;
+    dataModifier?: (response: Response) => any;
 };
 
 export default apiDataType;
