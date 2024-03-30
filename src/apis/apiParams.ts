@@ -82,12 +82,12 @@ export const apiFlux = (): apiDataType => {
     };
 };
 
-export const apiYRMETWeather10Day = (lat: string, lon: string): apiDataType => {
+export const apiYRMETWeather10Hours = (lat: string, lon: string): apiDataType => {
     return {
         apiUrl: env.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",
-        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
-        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        apiRedisKey: `yrmet_weather_data_10hours${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_10hours${lat}_${lon}`,
         cacheTTL: 1800,
         source: "MET Norway",
         dataModifier: modifyWeatherData,
@@ -98,8 +98,8 @@ export const apiYRMETWeatherComplete = (lat: string, lon: string): apiDataType =
     return {
         apiUrl: env.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",
-        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
-        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        apiRedisKey: `yrmet_weather_data_complete${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_complete${lat}_${lon}`,
         cacheTTL: 1800,
         source: "MET Norway",
     };

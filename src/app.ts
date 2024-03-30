@@ -2,7 +2,7 @@ import "dotenv/config";
 import express from "express";
 import fetchDataFromApi from "./utils/fetchDataFromApi";
 import fetchAndModifyKIndex from "./utils/modifyKIndex";
-import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather10Day, apiYRMETWeatherComplete, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
+import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather10Hours, apiYRMETWeatherComplete, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
 import cors from "cors";
 
 const app = express();
@@ -67,10 +67,10 @@ app.get("/api/flux", async (req, res) => {
     res.json(data);
 });
 
-app.get("/api/yr-met-weather-10day/", async (req, res) => {
+app.get("/api/yr-met-weather-10hours/", async (req, res) => {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
-    const apiData = apiYRMETWeather10Day(lat, lon);
+    const apiData = apiYRMETWeather10Hours(lat, lon);
     const data = await fetchDataFromApi(apiData);
     res.json(data);
 });
