@@ -68,10 +68,10 @@ app.get("/api/flux", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-app.get("/api/yr-met-weather-10day/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/api/yr-met-weather-10hours/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
-    const apiData = (0, apiParams_1.apiYRMETWeather10Day)(lat, lon);
+    const apiData = (0, apiParams_1.apiYRMETWeather10Hours)(lat, lon);
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));

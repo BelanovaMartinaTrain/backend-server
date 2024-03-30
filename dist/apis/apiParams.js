@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeatherComplete = exports.apiYRMETWeather10Day = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
+exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeatherComplete = exports.apiYRMETWeather10Hours = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
 const modify27Days_1 = __importDefault(require("../utils/modify27Days"));
 const modifyDensityData_1 = __importDefault(require("../utils/modifyDensityData"));
@@ -86,24 +86,24 @@ const apiFlux = () => {
     };
 };
 exports.apiFlux = apiFlux;
-const apiYRMETWeather10Day = (lat, lon) => {
+const apiYRMETWeather10Hours = (lat, lon) => {
     return {
         apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",
-        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
-        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        apiRedisKey: `yrmet_weather_data_10hours${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_10hours${lat}_${lon}`,
         cacheTTL: 1800,
         source: "MET Norway",
         dataModifier: modifyWeatherData_1.default,
     };
 };
-exports.apiYRMETWeather10Day = apiYRMETWeather10Day;
+exports.apiYRMETWeather10Hours = apiYRMETWeather10Hours;
 const apiYRMETWeatherComplete = (lat, lon) => {
     return {
         apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
         apiKey: "",
-        apiRedisKey: `yrmet_weather_data_${lat}_${lon}`,
-        timestampRedisKey: `yrmet_weather_ttl_${lat}_${lon}`,
+        apiRedisKey: `yrmet_weather_data_complete${lat}_${lon}`,
+        timestampRedisKey: `yrmet_weather_ttl_complete${lat}_${lon}`,
         cacheTTL: 1800,
         source: "MET Norway",
     };
