@@ -14,7 +14,7 @@ FROM node:${NODE_VERSION}-alpine
 ENV NODE_ENV production
 
 
-WORKDIR /app
+WORKDIR /dist
 COPY ./dist ./dist
 
 # Download dependencies as a separate step to take advantage of Docker's caching.
