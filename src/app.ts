@@ -4,19 +4,27 @@ import fetchDataFromApi from "./utils/fetchDataFromApi";
 import fetchAndModifyKIndex from "./utils/modifyKIndex";
 import { apiPlanetaryKIndex, apiSpaceWeather, apiYRMETWeather10Hours, apiYRMETWeatherComplete, apiSolarWind, apiMagneticField, apiFlux, apiPlanetaryK3h, apiSolarWindDensity5Min, apiSolarWindDensity3Day, api27Day } from "./apis/apiParams";
 import cors from "cors";
+import { fetchAndSaveOvationImage } from "./scripts/fetchAnOvationImage";
+import { imageTransformationHandler } from "./handlers/imageTranformationHandler";
 
 const app = express();
 
 app.use(cors());
 
-// app.use(
-//     cors({
-//         origin: "https://aurora-forecast-frontend.vercel.app/",
-//     })
-// );
+app.use(
+    cors({
+        origin: "https://auroraforecast.online/",
+    })
+);
 
 app.use(express.json());
 app.use(express.static("public"));
+
+fetchAndSaveOvationImage("north");
+fetchAndSaveOvationImage("south");
+
+setInterval(() => fetchAndSaveOvationImage("north"), 5 * 60 * 1000);
+setInterval(() => fetchAndSaveOvationImage("south"), 5 * 60 * 1000);
 
 app.get("/api/planetary-k-index", async (req, res) => {
     const apiData = apiPlanetaryKIndex();
@@ -67,7 +75,7 @@ app.get("/api/flux", async (req, res) => {
     res.json(data);
 });
 
-app.get("/api/yr-met-weather-10hours/", async (req, res) => {
+app.get("/api/yr-met-weather-10hours", async (req, res) => {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
     const apiData = apiYRMETWeather10Hours(lat, lon);
@@ -75,7 +83,7 @@ app.get("/api/yr-met-weather-10hours/", async (req, res) => {
     res.json(data);
 });
 
-app.get("/api/yr-met-weather-complete/", async (req, res) => {
+app.get("/api/yr-met-weather-complete", async (req, res) => {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
     const apiData = apiYRMETWeatherComplete(lat, lon);
@@ -93,6 +101,11 @@ app.get("/api/27-days-forecast", async (req, res) => {
     const apiData = api27Day();
     const data = await fetchDataFromApi(apiData);
     res.json(data);
+});
+
+app.get("/api/image-ovation", async (req, res, next) => {
+    console.log(req.query);
+    await imageTransformationHandler(req, res, next);
 });
 
 export default app;
