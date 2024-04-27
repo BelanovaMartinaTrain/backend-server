@@ -6,9 +6,9 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=lts
+ARG NODE_VERSION=20.11.1
 
-FROM node:${NODE_VERSION}
+FROM node:${NODE_VERSION}-alpine
 
 # Use production node environment by default.
 ENV NODE_ENV production
@@ -24,7 +24,7 @@ COPY ./dist ./dist
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev 
+    npm ci --omit=dev
 
 # Run the application as a non-root user.
 USER node
