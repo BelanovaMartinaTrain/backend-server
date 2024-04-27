@@ -25,7 +25,8 @@ COPY ./public/ ./public
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
-    npm ci --omit=dev
+    npm ci --omit=dev \
+    chown -R node:node /app
 
 # Run the application as a non-root user.
 USER node
