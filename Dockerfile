@@ -13,18 +13,14 @@ COPY ./dist ./dist
 COPY ./public/ ./public
 
 # Set the appropriate permissions
+USER root
 RUN chown -R node:node /app
 RUN chown -R node:node /app/public
-
-
-# Copy the rest of the source files into the image.
-COPY . .
-
 # Use the node user
 USER node
 
 # Expose the port that the application listens on.
-EXPOSE 5176
+EXPOSE 8080
 
 # Run the application.
 CMD node dist/server.js
