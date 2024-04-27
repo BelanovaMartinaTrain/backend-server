@@ -14,12 +14,14 @@ COPY ./public/ ./public
 
 # Set the appropriate permissions
 RUN chown -R node:node /app
+RUN chown -R node:node /app/public
 
-# Use the node user
-USER node
 
 # Copy the rest of the source files into the image.
 COPY . .
+
+# Use the node user
+USER node
 
 # Expose the port that the application listens on.
 EXPOSE 5176
