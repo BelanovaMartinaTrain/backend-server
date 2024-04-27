@@ -18,15 +18,21 @@ const fetchDataFromApi_1 = __importDefault(require("./utils/fetchDataFromApi"));
 const modifyKIndex_1 = __importDefault(require("./utils/modifyKIndex"));
 const apiParams_1 = require("./apis/apiParams");
 const cors_1 = __importDefault(require("cors"));
+const fetchAnOvationImage_1 = require("./scripts/fetchAnOvationImage");
+const imageTranformationHandler_1 = require("./handlers/imageTranformationHandler");
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // app.use(
 //     cors({
-//         origin: "https://aurora-forecast-frontend.vercel.app/",
+//         origin: "https://auroraforecast.online/",
 //     })
 // );
 app.use(express_1.default.json());
 app.use(express_1.default.static("public"));
+(0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("north");
+(0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("south");
+setInterval(() => (0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("north"), 5 * 60 * 1000);
+setInterval(() => (0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("south"), 5 * 60 * 1000);
 app.get("/api/planetary-k-index", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiPlanetaryKIndex)();
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
@@ -40,6 +46,7 @@ app.get("/api/planetary-k-index-mod", (req, res) => __awaiter(void 0, void 0, vo
 app.get("/api/sunstorm-events", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiSpaceWeather)();
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
+    console.log("sunstorm events");
     res.json(data);
 }));
 // TODO combine wind, field, flux and latest pic to one and send back as object
@@ -68,14 +75,14 @@ app.get("/api/flux", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-app.get("/api/yr-met-weather-10hours/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/api/yr-met-weather-10hours", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
     const apiData = (0, apiParams_1.apiYRMETWeather10Hours)(lat, lon);
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
 }));
-app.get("/api/yr-met-weather-complete/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+app.get("/api/yr-met-weather-complete", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const lat = String(req.query.lat);
     const lon = String(req.query.lon);
     const apiData = (0, apiParams_1.apiYRMETWeatherComplete)(lat, lon);
@@ -91,5 +98,10 @@ app.get("/api/27-days-forecast", (req, res) => __awaiter(void 0, void 0, void 0,
     const apiData = (0, apiParams_1.api27Day)();
     const data = yield (0, fetchDataFromApi_1.default)(apiData);
     res.json(data);
+}));
+app.get("/api/image-ovation", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("ovation");
+    console.log(req.query);
+    (0, imageTranformationHandler_1.imageTransformationHandler)(req, res, next);
 }));
 exports.default = app;
