@@ -41,6 +41,7 @@ app.get("/api/planetary-k-index-mod", async (req, res) => {
 app.get("/api/sunstorm-events", async (req, res) => {
     const apiData = apiSpaceWeather();
     const data = await fetchDataFromApi(apiData);
+    console.log("sunstorm events");
     res.json(data);
 });
 
@@ -104,6 +105,7 @@ app.get("/api/27-days-forecast", async (req, res) => {
 });
 
 app.get("/api/image-ovation", async (req, res, next) => {
+    console.log("ovation");
     console.log(req.query);
     imageTransformationHandler(req, res, next);
 });
