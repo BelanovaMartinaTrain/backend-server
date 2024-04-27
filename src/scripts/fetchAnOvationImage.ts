@@ -8,6 +8,8 @@ export const fetchAndSaveOvationImage = async (name: string) => {
         mkdirSync("public");
     }
 
+    console.log(name);
+
     try {
         const response = await axios({ url, method: "GET", responseType: "stream" });
         const imageFolderPath = resolve("public", `latest-${name}.jpg`);

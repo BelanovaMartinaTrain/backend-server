@@ -105,7 +105,7 @@ app.get("/api/27-days-forecast", async (req, res) => {
 
 app.get("/api/image-ovation", async (req, res, next) => {
     console.log(req.query);
-    await imageTransformationHandler(req, res, next);
+    imageTransformationHandler(req, res, next);
 });
 
 export default app;
