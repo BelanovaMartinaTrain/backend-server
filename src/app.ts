@@ -77,19 +77,29 @@ app.get("/api/flux", async (req, res) => {
 });
 
 app.get("/api/yr-met-weather-10hours", async (req, res) => {
-    const lat = String(req.query.lat);
-    const lon = String(req.query.lon);
-    const apiData = apiYRMETWeather10Hours(lat, lon);
-    const data = await fetchDataFromApi(apiData);
-    res.json(data);
+    const lat = isNaN(Number(req.query.lat)) ? null : String(req.query.lat);
+    const lon = isNaN(Number(req.query.lon)) ? null : String(req.query.lon);
+
+    if (!lat || !lon) {
+        res.status(500).send("Longitute and latitude are required");
+    } else {
+        const apiData = apiYRMETWeather10Hours(lat, lon);
+        const data = await fetchDataFromApi(apiData);
+        res.json(data);
+    }
 });
 
 app.get("/api/yr-met-weather-complete", async (req, res) => {
-    const lat = String(req.query.lat);
-    const lon = String(req.query.lon);
-    const apiData = apiYRMETWeatherComplete(lat, lon);
-    const data = await fetchDataFromApi(apiData);
-    res.json(data);
+    const lat = isNaN(Number(req.query.lat)) ? null : String(req.query.lat);
+    const lon = isNaN(Number(req.query.lon)) ? null : String(req.query.lon);
+
+    if (!lat || !lon) {
+        res.status(500).send("Longitute and latitude are required");
+    } else {
+        const apiData = apiYRMETWeatherComplete(lat, lon);
+        const data = await fetchDataFromApi(apiData);
+        res.json(data);
+    }
 });
 
 app.get("/api/planetary-k-3h", async (req, res) => {

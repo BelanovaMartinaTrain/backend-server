@@ -76,18 +76,28 @@ app.get("/api/flux", (req, res) => __awaiter(void 0, void 0, void 0, function* (
     res.json(data);
 }));
 app.get("/api/yr-met-weather-10hours", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lat = String(req.query.lat);
-    const lon = String(req.query.lon);
-    const apiData = (0, apiParams_1.apiYRMETWeather10Hours)(lat, lon);
-    const data = yield (0, fetchDataFromApi_1.default)(apiData);
-    res.json(data);
+    const lat = isNaN(Number(req.query.lat)) ? null : String(req.query.lat);
+    const lon = isNaN(Number(req.query.lon)) ? null : String(req.query.lon);
+    if (!lat || !lon) {
+        res.status(500).send("Longitute and latitude are required");
+    }
+    else {
+        const apiData = (0, apiParams_1.apiYRMETWeather10Hours)(lat, lon);
+        const data = yield (0, fetchDataFromApi_1.default)(apiData);
+        res.json(data);
+    }
 }));
 app.get("/api/yr-met-weather-complete", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const lat = String(req.query.lat);
-    const lon = String(req.query.lon);
-    const apiData = (0, apiParams_1.apiYRMETWeatherComplete)(lat, lon);
-    const data = yield (0, fetchDataFromApi_1.default)(apiData);
-    res.json(data);
+    const lat = isNaN(Number(req.query.lat)) ? null : String(req.query.lat);
+    const lon = isNaN(Number(req.query.lon)) ? null : String(req.query.lon);
+    if (!lat || !lon) {
+        res.status(500).send("Longitute and latitude are required");
+    }
+    else {
+        const apiData = (0, apiParams_1.apiYRMETWeatherComplete)(lat, lon);
+        const data = yield (0, fetchDataFromApi_1.default)(apiData);
+        res.json(data);
+    }
 }));
 app.get("/api/planetary-k-3h", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const apiData = (0, apiParams_1.apiPlanetaryK3h)();
