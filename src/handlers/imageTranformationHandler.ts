@@ -1,17 +1,16 @@
 import sharp from "sharp";
 import fs from "fs";
-import { promisify } from "util";
-import { pipeline } from "stream";
 import { RequestHandler } from "express";
 
-// Promisify the pipeline to be able to use async/await
-const pipelineAsync = promisify(pipeline);
 type ImageFormat = keyof sharp.FormatEnum;
 
 export const imageTransformationHandler: RequestHandler = async (req, res) => {
     try {
         const hemisphere = (req.query.hemisphere as string) || "north";
-        const format = ((req.query.format as string) || "webp") as ImageFormat;
+        const format = (checkFormat(req.query.format as string) ? (req.query.format as string) : "webp") as ImageFormat;
+
+        console.log(format);
+
         const width = parseInt(req.query.width as string) || 300;
         const height = parseInt(req.query.height as string) || undefined;
         console.log("log", hemisphere, format, width, height);
@@ -26,3 +25,15 @@ export const imageTransformationHandler: RequestHandler = async (req, res) => {
         res.status(500).send("Error processing image");
     }
 };
+
+function checkFormat(format: string) {
+    const allowedFormats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
+    if (allowedFormats.includes(format)) {
+        console.log(true);
+
+        return format;
+    } else {
+        console.log(false);
+        return undefined;
+    }
+}
