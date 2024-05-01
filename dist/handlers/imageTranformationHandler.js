@@ -19,10 +19,8 @@ const imageTransformationHandler = (req, res) => __awaiter(void 0, void 0, void 
     try {
         const hemisphere = req.query.hemisphere || "north";
         const format = (checkFormat(req.query.format) ? req.query.format : "webp");
-        console.log(format);
         const width = parseInt(req.query.width) || 300;
-        const height = parseInt(req.query.height) || undefined;
-        console.log("log", hemisphere, format, width, height);
+        const height = parseInt(req.query.height) || null;
         res.type(`image/${format}`);
         const readStream = fs_1.default.createReadStream(`public/latest-${hemisphere}.jpg`);
         const transformStream = (0, sharp_1.default)().resize(width, height).toFormat(format);
@@ -37,11 +35,9 @@ exports.imageTransformationHandler = imageTransformationHandler;
 function checkFormat(format) {
     const allowedFormats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
     if (allowedFormats.includes(format)) {
-        console.log(true);
         return format;
     }
     else {
-        console.log(false);
-        return undefined;
+        return null;
     }
 }

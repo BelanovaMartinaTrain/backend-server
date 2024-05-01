@@ -33,7 +33,7 @@ const fetchAndSaveOvationImage = (name) => __awaiter(void 0, void 0, void 0, fun
         });
     }
     catch (error) {
-        console.error("Failed to fetch image north:", error);
+        console.error("Failed to fetch image:", error);
     }
 });
 exports.fetchAndSaveOvationImage = fetchAndSaveOvationImage;

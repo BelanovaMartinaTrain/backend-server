@@ -22,6 +22,6 @@ export const fetchAndSaveOvationImage = async (name: string) => {
             writer.on("error", reject);
         });
     } catch (error) {
-        console.error("Failed to fetch image north:", error);
+        console.error("Failed to fetch image:", error);
     }
 };
