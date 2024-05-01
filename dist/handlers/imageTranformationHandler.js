@@ -15,14 +15,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.imageTransformationHandler = void 0;
 const sharp_1 = __importDefault(require("sharp"));
 const fs_1 = __importDefault(require("fs"));
-const util_1 = require("util");
-const stream_1 = require("stream");
-// Promisify the pipeline to be able to use async/await
-const pipelineAsync = (0, util_1.promisify)(stream_1.pipeline);
 const imageTransformationHandler = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const hemisphere = req.query.hemisphere || "north";
-        const format = (req.query.format || "webp");
+        const format = (checkFormat(req.query.format) ? req.query.format : "webp");
+        console.log(format);
         const width = parseInt(req.query.width) || 300;
         const height = parseInt(req.query.height) || undefined;
         console.log("log", hemisphere, format, width, height);
@@ -37,3 +34,14 @@ const imageTransformationHandler = (req, res) => __awaiter(void 0, void 0, void 
     }
 });
 exports.imageTransformationHandler = imageTransformationHandler;
+function checkFormat(format) {
+    const allowedFormats = ["heic", "heif", "avif", "jpeg", "jpg", "jpe", "tile", "dz", "png", "raw", "tiff", "tif", "webp", "gif", "jp2", "jpx", "j2k", "j2c", "jxl"];
+    if (allowedFormats.includes(format)) {
+        console.log(true);
+        return format;
+    }
+    else {
+        console.log(false);
+        return undefined;
+    }
+}
