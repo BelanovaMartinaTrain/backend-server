@@ -1,8 +1,8 @@
 import env from "../utils/validateEnv";
-import apiDataType from "../interfaces/apiDataType";
-import changeData27days from "../utils/modify27Days";
-import modifyDensityData from "../utils/modifyDensityData";
-import modifyWeatherData from "../utils/modifyWeatherData";
+import apiDataType from "../types/apiDataType";
+import changeData27days from "../handlers/modify27Days";
+import modifyDensityData from "../handlers/modifyDensityData";
+import modifyWeatherData from "../handlers/modifyWeatherData";
 
 export const apiPlanetaryKIndex = (): apiDataType => {
     return {
