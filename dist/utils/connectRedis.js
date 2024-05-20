@@ -12,18 +12,26 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-require("dotenv/config");
-const validateEnv_1 = __importDefault(require("./utils/validateEnv"));
-const createApp_1 = __importDefault(require("./createApp"));
-const fetchAnOvationImage_1 = require("./scripts/fetchAnOvationImage");
-const connectRedis_1 = require("./utils/connectRedis");
-const app = (0, createApp_1.default)();
-const port = validateEnv_1.default.PORT || 8080;
-(0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("north");
-(0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("south");
-setInterval(() => (0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("north"), 5 * 60 * 1000);
-setInterval(() => (0, fetchAnOvationImage_1.fetchAndSaveOvationImage)("south"), 5 * 60 * 1000);
-app.listen(port, () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(`Server running on port ${port}`);
-    yield (0, connectRedis_1.connectRedis)();
-}));
+exports.connectRedis = exports.redisClient = void 0;
+const redis_1 = require("redis");
+const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
+const redisPassword = validateEnv_1.default.REDIS_PASSWORD;
+exports.redisClient = (0, redis_1.createClient)({
+    password: redisPassword,
+    socket: {
+        host: "redis-17111.c327.europe-west1-2.gce.cloud.redislabs.com",
+        port: 17111,
+    },
+});
+exports.redisClient.on("error", (err) => console.log("Redis Client Error", err));
+function connectRedis() {
+    return __awaiter(this, void 0, void 0, function* () {
+        exports.redisClient
+            .connect()
+            .then(() => {
+            console.log("Redis connected");
+        })
+            .catch(console.error);
+    });
+}
+exports.connectRedis = connectRedis;

@@ -5,9 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.api27Day = exports.apiPlanetaryK3h = exports.apiYRMETWeatherComplete = exports.apiYRMETWeather10Hours = exports.apiFlux = exports.apiMagneticField = exports.apiSolarWindDensity3Day = exports.apiSolarWindDensity5Min = exports.apiSolarWind = exports.apiSpaceWeather = exports.apiPlanetaryKIndex = void 0;
 const validateEnv_1 = __importDefault(require("../utils/validateEnv"));
-const modify27Days_1 = __importDefault(require("../utils/modify27Days"));
-const modifyDensityData_1 = __importDefault(require("../utils/modifyDensityData"));
-const modifyWeatherData_1 = __importDefault(require("../utils/modifyWeatherData"));
+const modify27Days_1 = __importDefault(require("../handlers/modify27Days"));
+const modifyDensityData_1 = __importDefault(require("../handlers/modifyDensityData"));
+const modifyWeatherData_1 = __importDefault(require("../handlers/modifyWeatherData"));
 const apiPlanetaryKIndex = () => {
     return {
         apiUrl: validateEnv_1.default.NOAA_API_URL_K_INDEX,
@@ -88,7 +88,7 @@ const apiFlux = () => {
 exports.apiFlux = apiFlux;
 const apiYRMETWeather10Hours = (lat, lon) => {
     return {
-        apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
+        apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`,
         apiKey: "",
         apiRedisKey: `yrmet_weather_data_10hours${lat}_${lon}`,
         timestampRedisKey: `yrmet_weather_ttl_10hours${lat}_${lon}`,
@@ -100,7 +100,7 @@ const apiYRMETWeather10Hours = (lat, lon) => {
 exports.apiYRMETWeather10Hours = apiYRMETWeather10Hours;
 const apiYRMETWeatherComplete = (lat, lon) => {
     return {
-        apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`, // TODO shorten lon and lat to int values
+        apiUrl: validateEnv_1.default.YR_API_URL + `?lat=${lat}&lon=${lon}`,
         apiKey: "",
         apiRedisKey: `yrmet_weather_data_complete${lat}_${lon}`,
         timestampRedisKey: `yrmet_weather_ttl_complete${lat}_${lon}`,
