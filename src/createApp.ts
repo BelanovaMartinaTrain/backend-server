@@ -9,11 +9,11 @@ function createApp() {
 
     app.use(cors());
 
-    app.use(
-        cors({
-            origin: "https://auroraforecast.online/",
-        })
-    );
+    // app.use(
+    //     cors({
+    //         origin: "https://auroraforecast.online/",
+    //     })
+    // );
 
     app.use(express.json());
     app.use(express.static("public"));
