@@ -60,12 +60,15 @@ const fetchDataFromApi = async (params: apiDataType) => {
 
             // if fetch was succesfull set fetched data to redis
             const replySetRedisData = await redisClient.json.set(apiRedisKey, "$", data);
+
             console.log(replySetRedisData);
 
             if (replySetRedisData != "OK") {
                 status = 500;
                 throw new Error("REDIS is not available");
             }
+
+            redisClient.expire(apiRedisKey, 3600);
 
             // if there is error fetching, try reading older data from redis, or set data to "Error" for future error handling
         } catch {
