@@ -19,8 +19,8 @@ const redisPassword = validateEnv_1.default.REDIS_PASSWORD;
 exports.redisClient = (0, redis_1.createClient)({
     password: redisPassword,
     socket: {
-        host: "redis-17111.c327.europe-west1-2.gce.cloud.redislabs.com",
-        port: 17111,
+        host: "redis-14641.c270.us-east-1-3.ec2.redns.redis-cloud.com",
+        port: 14641,
     },
 });
 exports.redisClient.on("error", (err) => console.log("Redis Client Error", err));
