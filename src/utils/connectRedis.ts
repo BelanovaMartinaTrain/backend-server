@@ -6,8 +6,8 @@ const redisPassword = env.REDIS_PASSWORD;
 export const redisClient: RedisClientType = createClient({
     password: redisPassword,
     socket: {
-        host: "redis-17111.c327.europe-west1-2.gce.cloud.redislabs.com",
-        port: 17111,
+        host: "redis-14641.c270.us-east-1-3.ec2.redns.redis-cloud.com",
+        port: 14641,
     },
 });
 
